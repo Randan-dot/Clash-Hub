@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.8) 50%, rgba(22, 33, 62, 0.8) 100%);
+            min-height: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #00ffff, #0080ff);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .stat-number {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .neon-border {
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="text-white min-h-full">
+    <div class="min-h-full p-6">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl">🎮</span>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold text-cyan-400">CLASHHUB</h1>
+                    <p class="text-gray-400">Welcome back, Player</p>
+                </div>
+            </div>
+                        <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button id="themeButton" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                        <span>🎨</span>
+                        <span>Themes</span>
+                    </button>
+                    <div id="themeMenu" class="absolute right-0 top-12 bg-gray-900/90 backdrop-blur-sm rounded-xl p-4 space-y-2 min-w-48 hidden neon-border">
+                        <h3 class="text-sm font-bold text-cyan-400 mb-3">Choose Theme</h3>
+                        <button class="theme-option w-full text-left p-2 rounded-lg hover:bg-gray-700/50 transition-colors flex items-center space-x-3" data-theme="cyber">
+                            <div class="w-4 h-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
+                            <span class="text-sm">Cyber Blue</span>
+                        </button>
+                        <button class="theme-option w-full text-left p-2 rounded-lg hover:bg-gray-700/50 transition-colors flex items-center space-x-3" data-theme="neon">
+                            <div class="w-4 h-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full"></div>
+                            <span class="text-sm">Neon Purple</span>
+                        </button>
+                        <button class="theme-option w-full text-left p-2 rounded-lg hover:bg-gray-700/50 transition-colors flex items-center space-x-3" data-theme="matrix">
+                            <div class="w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full"></div>
+                            <span class="text-sm">Matrix Green</span>
+                        </button>
+                        <button class="theme-option w-full text-left p-2 rounded-lg hover:bg-gray-700/50 transition-colors flex items-center space-x-3" data-theme="fire">
+                            <div class="w-4 h-4 bg-gradient-to-r from-red-500 to-orange-500 rounded-full"></div>
+                            <span class="text-sm">Fire Orange</span>
+                        </button>
+                        <button class="theme-option w-full text-left p-2 rounded-lg hover:bg-gray-700/50 transition-colors flex items-center space-x-3" data-theme="ice">
+                            <div class="w-4 h-4 bg-gradient-to-r from-blue-300 to-indigo-400 rounded-full"></div>
+                            <span class="text-sm">Ice Blue</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
+                    ⚙️ Settings
+                </button>
+                <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-bold">PX</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 card-hover neon-border">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Total Playtime</p>
+                        <p class="text-3xl font-bold stat-number">247h</p>
+                    </div>
+                    <div class="text-3xl">⏱️</div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 card-hover neon-border">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Games Owned</p>
+                        <p class="text-3xl font-bold stat-number">156</p>
+                    </div>
+                    <div class="text-3xl">🎯</div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 card-hover neon-border">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Achievements</p>
+                        <p class="text-3xl font-bold stat-number">89</p>
+                    </div>
+                    <div class="text-3xl">🏆</div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 card-hover neon-border">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Level</p>
+                        <p class="text-3xl font-bold stat-number">42</p>
+                    </div>
+                    <div class="text-3xl">⭐</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Recently Played Games -->
+            <div class="lg:col-span-2">
+                <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 neon-border">
+                    <h2 class="text-xl font-bold mb-6 text-cyan-400">Recent Games</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4 p-4 bg-gray-800/30 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer">
+                            <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center text-2xl">
+                                🔥
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold">Call Of Duty, Modern Warfare</h3>
+                                <p class="text-gray-400 text-sm">Last played: 2 hours ago</p>
+                                <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                                    <div class="progress-bar h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <button class="bg-cyan-500 hover:bg-cyan-600 px-6 py-2 rounded-lg font-bold transition-colors">
+                                PLAY
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 bg-gray-800/30 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer">
+                            <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center text-2xl">
+                                🌟
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold">Need For Speed</h3>
+                                <p class="text-gray-400 text-sm">Last played: 1 day ago</p>
+                                <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                                    <div class="progress-bar h-2 rounded-full" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <button class="bg-cyan-500 hover:bg-cyan-600 px-6 py-2 rounded-lg font-bold transition-colors">
+                                PLAY
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 bg-gray-800/30 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer">
+                            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-2xl">
+                                ⚔️
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold">Battlefield 6</h3>
+                                <p class="text-gray-400 text-sm">Last played: 3 days ago</p>
+                                <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                                    <div class="progress-bar h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <button class="bg-cyan-500 hover:bg-cyan-600 px-6 py-2 rounded-lg font-bold transition-colors">
+                                PLAY
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="space-y-6">
+                <!-- Friends Online -->
+                <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 neon-border">
+                    <h2 class="text-xl font-bold mb-4 text-cyan-400">Friends Online</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-sm">
+                                🟢
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold">ShadowHunter</p>
+                                <p class="text-xs text-gray-400">Playing Cyber Legends</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-sm">
+                                🟡
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold">NeonKnight</p>
+                                <p class="text-xs text-gray-400">Away</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-sm">
+                                🟢
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold">QuantumGamer</p>
+                                <p class="text-xs text-gray-400">In Menu</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Achievements -->
+                <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 neon-border">
+                    <h2 class="text-xl font-bold mb-4 text-cyan-400">Recent Achievements</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 p-3 bg-gray-800/30 rounded-lg">
+                            <div class="text-2xl">🏆</div>
+                            <div>
+                                <p class="font-semibold text-sm">Master Strategist</p>
+                                <p class="text-xs text-gray-400">Stellar Warfare</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-gray-800/30 rounded-lg">
+                            <div class="text-2xl">⚡</div>
+                            <div>
+                                <p class="font-semibold text-sm">Speed Runner</p>
+                                <p class="text-xs text-gray-400">Cyber Legends</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-gray-800/30 rounded-lg">
+                            <div class="text-2xl">💎</div>
+                            <div>
+                                <p class="font-semibold text-sm">Rare Collector</p>
+                                <p class="text-xs text-gray-400">Mystic Realms</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Chat -->
+                <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 neon-border">
+                    <h2 class="text-xl font-bold mb-4 text-cyan-400">Player Chat</h2>
+                    <div class="space-y-3 mb-4 h-48 overflow-y-auto" id="chatMessages">
+                        <div class="flex items-start space-x-2">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-xs">
+                                S
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs text-cyan-400 font-semibold">ShadowHunter</p>
+                                <p class="text-xs text-gray-300">Anyone up for Cyber Legends?</p>
+                                <p class="text-xs text-gray-500">2 min ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-2">
+                            <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-xs">
+                                Q
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs text-cyan-400 font-semibold">QuantumGamer</p>
+                                <p class="text-xs text-gray-300">Sure! Starting in 5 mins</p>
+                                <p class="text-xs text-gray-500">1 min ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-2">
+                            <div class="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-xs">
+                                N
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs text-cyan-400 font-semibold">NeonKnight</p>
+                                <p class="text-xs text-gray-300">Count me in! 🎮</p>
+                                <p class="text-xs text-gray-500">30 sec ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="chatForm" class="flex space-x-2">
+                        <input 
+                            type="text" 
+                            id="chatInput"
+                            placeholder="Type a message..." 
+                            class="flex-1 bg-gray-800/50 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400"
+                        >
+                        <button 
+                            type="submit"
+                            class="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-lg text-sm font-bold transition-colors"
+                        >
+                            Send
+                        </button>
+                    </form>
+                </div>
+
+                <!-- System Status -->
+                <div class="bg-gray-900/30 backdrop-blur-sm rounded-xl p-6 neon-border">
+                    <h2 class="text-xl font-bold mb-4 text-cyan-400">System Status</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm">CPU Usage</span>
+                            <span class="text-sm text-cyan-400">45%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-cyan-500 h-2 rounded-full" style="width: 45%"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm">GPU Usage</span>
+                            <span class="text-sm text-cyan-400">78%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-cyan-500 h-2 rounded-full" style="width: 78%"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm">RAM Usage</span>
+                            <span class="text-sm text-cyan-400">62%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-cyan-500 h-2 rounded-full" style="width: 62%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeButton = document.getElementById('themeButton');
+            const themeMenu = document.getElementById('themeMenu');
+            const themeOptions = document.querySelectorAll('.theme-option');
+
+            themeButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                themeMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!themeButton.contains(e.target) && !themeMenu.contains(e.target)) {
+                    themeMenu.classList.add('hidden');
+                }
+            });
+
+            const themes = {
+                cyber: {
+                    primary: '#00ffff',
+                    secondary: '#0080ff',
+                    accent: 'from-cyan-400 to-blue-500',
+                    background: 'linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.8) 50%, rgba(22, 33, 62, 0.8) 100%)'
+                },
+                neon: {
+                    primary: '#ff00ff',
+                    secondary: '#8000ff',
+                    accent: 'from-pink-500 to-purple-500',
+                    background: 'linear-gradient(135deg, rgba(35, 15, 35, 0.8) 0%, rgba(46, 26, 46, 0.8) 50%, rgba(62, 22, 62, 0.8) 100%)'
+                },
+                matrix: {
+                    primary: '#00ff00',
+                    secondary: '#00cc00',
+                    accent: 'from-green-400 to-emerald-500',
+                    background: 'linear-gradient(135deg, rgba(15, 35, 15, 0.8) 0%, rgba(26, 46, 26, 0.8) 50%, rgba(22, 62, 22, 0.8) 100%)'
+                },
+                fire: {
+                    primary: '#ff4500',
+                    secondary: '#ff6600',
+                    accent: 'from-red-500 to-orange-500',
+                    background: 'linear-gradient(135deg, rgba(35, 15, 15, 0.8) 0%, rgba(46, 26, 26, 0.8) 50%, rgba(62, 22, 22, 0.8) 100%)'
+                },
+                ice: {
+                    primary: '#87ceeb',
+                    secondary: '#4682b4',
+                    accent: 'from-blue-300 to-indigo-400',
+                    background: 'linear-gradient(135deg, rgba(15, 25, 35, 0.8) 0%, rgba(26, 36, 46, 0.8) 50%, rgba(22, 42, 62, 0.8) 100%)'
+                }
+            };
+
+            themeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const themeName = this.dataset.theme;
+                    const theme = themes[themeName];
+
+                    document.body.style.background = theme.background;
+
+                    // Neon borders
+                    document.querySelectorAll('.neon-border').forEach(el => {
+                        el.style.borderColor = theme.primary;
+                        el.style.boxShadow = `0 0 10px ${theme.primary}80, inset 0 0 10px ${theme.primary}20`;
+                    });
+
+                    // Text colors
+                    document.querySelectorAll('.text-cyan-400').forEach(el => {
+                        el.style.color = theme.primary;
+                    });
+
+                    // Progress bars
+                    document.querySelectorAll('.progress-bar').forEach(bar => {
+                        bar.style.background = `linear-gradient(90deg, ${theme.primary}, ${theme.secondary})`;
+                    });
+
+                    // Buttons
+                    document.querySelectorAll('.bg-cyan-500').forEach(btn => {
+                        btn.style.backgroundColor = theme.primary;
+                    });
+
+                    themeMenu.classList.add('hidden');
+                });
+            });
+
+            // Animate progress bars on load
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+
+            // Add click handlers for play buttons
+            const playButtons = document.querySelectorAll('button:contains("PLAY")');
+            document.querySelectorAll('button').forEach(button => {
+                if (button.textContent.includes('PLAY')) {
+                    button.addEventListener('click', function() {
+                        this.textContent = 'LAUNCHING...';
+                        this.classList.add('opacity-75');
+                        setTimeout(() => {
+                            this.textContent = 'PLAY';
+                            this.classList.remove('opacity-75');
+                        }, 2000);
+                    });
+                }
+            });
+
+            // Theme functionality
+            const themeButton = document.getElementById('themeButton');
+            const themeMenu = document.getElementById('themeMenu');
+            const themeOptions = document.querySelectorAll('.theme-option');
+
+            themeButton.addEventListener('click', function() {
+                themeMenu.classList.toggle('hidden');
+            });
+
+            // Close theme menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!themeButton.contains(e.target) && !themeMenu.contains(e.target)) {
+                    themeMenu.classList.add('hidden');
+                }
+            });
+
+            // Theme switching
+            const themes = {
+                cyber: {
+                    primary: '#00ffff',
+                    secondary: '#0080ff',
+                    accent: 'from-cyan-400 to-blue-500',
+                    background: 'linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.8) 50%, rgba(22, 33, 62, 0.8) 100%)'
+                },
+                neon: {
+                    primary: '#ff00ff',
+                    secondary: '#8000ff',
+                    accent: 'from-pink-500 to-purple-500',
+                    background: 'linear-gradient(135deg, rgba(35, 15, 35, 0.8) 0%, rgba(46, 26, 46, 0.8) 50%, rgba(62, 22, 62, 0.8) 100%)'
+                },
+                matrix: {
+                    primary: '#00ff00',
+                    secondary: '#00cc00',
+                    accent: 'from-green-400 to-emerald-500',
+                    background: 'linear-gradient(135deg, rgba(15, 35, 15, 0.8) 0%, rgba(26, 46, 26, 0.8) 50%, rgba(22, 62, 22, 0.8) 100%)'
+                },
+                fire: {
+                    primary: '#ff4500',
+                    secondary: '#ff6600',
+                    accent: 'from-red-500 to-orange-500',
+                    background: 'linear-gradient(135deg, rgba(35, 15, 15, 0.8) 0%, rgba(46, 26, 26, 0.8) 50%, rgba(62, 22, 22, 0.8) 100%)'
+                },
+                ice: {
+                    primary: '#87ceeb',
+                    secondary: '#4682b4',
+                    accent: 'from-blue-300 to-indigo-400',
+                    background: 'linear-gradient(135deg, rgba(15, 25, 35, 0.8) 0%, rgba(26, 36, 46, 0.8) 50%, rgba(22, 42, 62, 0.8) 100%)'
+                }
+            };
+
+            themeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const themeName = this.dataset.theme;
+                    const theme = themes[themeName];
+                    
+                    // Update CSS variables and styles
+                    document.body.style.background = theme.background;
+                    
+                    // Update neon borders
+                    const neonElements = document.querySelectorAll('.neon-border');
+                    neonElements.forEach(el => {
+                        el.style.borderColor = theme.primary;
+                        el.style.boxShadow = `0 0 10px ${theme.primary}80, inset 0 0 10px ${theme.primary}20`;
+                    });
+                    
+                    // Update text colors
+                    const primaryTexts = document.querySelectorAll('.text-cyan-400');
+                    primaryTexts.forEach(el => {
+                        el.style.color = theme.primary;
+                    });
+                    
+                    // Update progress bars
+                    const progressBars = document.querySelectorAll('.progress-bar');
+                    progressBars.forEach(bar => {
+                        bar.style.background = `linear-gradient(90deg, ${theme.primary}, ${theme.secondary})`;
+                    });
+                    
+                    // Update buttons
+                    const buttons = document.querySelectorAll('.bg-cyan-500');
+                    buttons.forEach(btn => {
+                        btn.style.backgroundColor = theme.primary;
+                    });
+                    
+                    themeMenu.classList.add('hidden');
+                });
+            });
+
+            // Chat functionality
+            const chatForm = document.getElementById('chatForm');
+            const chatInput = document.getElementById('chatInput');
+            const chatMessages = document.getElementById('chatMessages');
+
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Add user message
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'flex items-start space-x-2';
+                    messageDiv.innerHTML = `
+                        <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-xs">
+                            P
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs text-cyan-400 font-semibold">Player</p>
+                            <p class="text-xs text-gray-300">${message}</p>
+                            <p class="text-xs text-gray-500">now</p>
+                        </div>
+                    `;
+                    chatMessages.appendChild(messageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    chatInput.value = '';
+                }
+            });
+
+            // Update system stats periodically
+            setInterval(() => {
+                const cpuBar = document.querySelector('.bg-cyan-500');
+                if (cpuBar) {
+                    const randomCpu = Math.floor(Math.random() * 30) + 40;
+                    cpuBar.style.width = randomCpu + '%';
+                    cpuBar.parentElement.previousElementSibling.querySelector('.text-cyan-400').textContent = randomCpu + '%';
+                }
+            }, 3000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e5819fd4db8a49',t:'MTc2MDQyODQ0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
